@@ -18,7 +18,7 @@ fs.readFile('../HTML/index.html', function (err, html) {
         var query = url_parts.query;
         console.log(query);
         var parsedQuery = querystring.stringify(query);
-        fs.appendFile('data.txt', "TEST  ", (err) => {
+        fs.appendFile('data.txt', parsedQuery + " ", (err) => {
             if (err) throw err;
         });
         res.writeHeader(200, {"Content-Type": "text/html"});
@@ -27,6 +27,5 @@ fs.readFile('../HTML/index.html', function (err, html) {
 
 
     }).listen(PORT, HOST);
-
 
 });
