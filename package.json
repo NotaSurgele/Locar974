@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Alt-F4-makethecodebetter/redoublement#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1"
   }
 }

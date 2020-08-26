@@ -9,19 +9,56 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+      <style type="text/css">
+        body {
+          background-image: url(form_bg.jpg);
+          background-size: cover;
+        }
+        .login{
+          margin-top: 100px;
+        }
+        .login .card{
+          background: rgba(0, 0, 0, .6);
+        }
+        .login label{
+          font-size: 16px;
+          color: #ccc;
+        }
+      </style>
+
     </head>
 
     <body>
-      <h1>Page de connexion</h1>
+      <form id="inscription" method="POST" action="submit_form">
+        <div class="row login">
+          <div class="col sl2 sl offset-l4">
+            <div class="card">
+              <div class="card-action red white-text">
+                <h3>Formulaire d'inscription</h3>
+              </div>
+              <div class="card-content">
+                <div class="form-field">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" id="email">
+                </div><br>
+                <div class="form-field">
+                  <label for="password">Password</label>
+                  <input type="password" name="password" id="password">
+                </div><br>
+                <div class="form-field">
+                  <label for="submit"></label>
+                  <input type="submit" name="submit" id="submit" value="Inscription">
+                </div><br>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        </form>
       <!-- <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.7471581599348!2d55.33106201550222!3d-20.962666586034224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x218286159b7986a3%3A0x3c1f1b45a2ba008a!2sImpasse%20Maurice%20Kriegel%20Valrimont%2C%20R%C3%A9union!5e0!3m2!1sfr!2sfr!4v1598250596133!5m2!1sfr!2sfr" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></p> -->
-      <form id="inscription" method="GET" action="submit_form">
-        <input type="email" name="email" placeholder="Adresse Email" id="email"><br>
-        <input type="password" name="password" placeholder="Mot de passe" id="password"><br>
-        <input type="submit" value="Inscription"><br>
-      </form>
       <p style="color: red;" id="error"></p>
 
-      <a href="test.html" action="test">test</a>
+      <a href="test.html" >test</a>
       <!--JavaScript at end of body for optimized loading-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
       <script src="../JavaScript/app.js"></script>
