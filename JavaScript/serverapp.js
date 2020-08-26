@@ -33,18 +33,18 @@ app.post('/submit_form', [
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()})
+    } else {
+        const email = req.body.email;
+        const password = req.body.password;
+        console.log(email + ' ' + password);
+        db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
+            if (err) return console.error("Cannot insert into the TABLE" + err.message);
+        });
+        console.log(email + password + " has been added to the data base");
+        db.close();
+        res.send("formulaire envoté avec l'adresse : " + email + "et comme mdp :" + password);
     }
 
-    const email = req.body.email;
-    const password = req.body.password;
-    console.log(email + ' ' + password);
-    db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
-        if (err) return console.error("Cannot insert into the TABLE" + err.message);
-    });
-
-    console.log(email + password + " has been added to the data base");
-    db.close();
-    res.send("formulaire envoté avec l'adresse : " + email + "et comme mdp :" + password);
 });
 
 
