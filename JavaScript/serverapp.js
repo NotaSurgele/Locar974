@@ -56,9 +56,10 @@ app.post('/submit_form', [
     }
 });
 
-app.get ('/new', (req, res) => {
+app.get ('/home', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/test.html'), function (err) {
         if (err) throw err;
     });
 });
+
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));
