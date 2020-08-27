@@ -15,7 +15,7 @@ app.use(express.static("../HTML/Pic"));
 app.use(express.static("../HTML"));
 app.use(express.static("./"));
 app.set('views', path.join(__dirname, '/../HTML'));
-app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
+// app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
 
 function __open_data(dataPath) {
     // open and create sqlite data base connexion
@@ -44,6 +44,11 @@ app.get ('/form', (req, res) => {
     res.render(path.join(__dirname + '/../HTML/index.html'));
 });
 
+app.get ('/home', (req, res) => {
+    res.render(path.join(__dirname + '/../HTML/test.html'));
+});
+
+
 app.post('/submit_form', [
     check('email').isEmail().trim().withMessage('Email is not valid'),
     check('password').isLength({min : 5}).trim().withMessage('Password must be 5 cahracter length')
@@ -58,12 +63,9 @@ app.post('/submit_form', [
         db = __open_data(dataPath);
         __insert_data(db, email, password);
         db.close();
-        res.redirect("/new");
+        res.redirect("/home");
     }
 });
 
-app.get ('/home', (req, res) => {
-    res.render(path.join(__dirname + '/../HTML/test.html'));
-});
 
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));
