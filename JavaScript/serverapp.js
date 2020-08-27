@@ -4,16 +4,26 @@ const app = express();
 const PORT = 8080;
 const bodyParser = require('body-parser');
 var path = require("path");
+var dataPath = "../database/data.db";
 const {check, validationResult} = require('express-validator');
 
 var sqlite = require('sqlite3').verbose();
 
-// open and create sqlite data base connexion
-let db = new sqlite.Database('../database/data.db', (err) => {
-    if (err) return console.error("cannot connect to database error : " + err);
+function __open_data(dataPath) {
+    // open and create sqlite data base connexion
+    let db = new sqlite.Database(dataPath, (err) => {
+        if (err) return console.error("cannot connect to database error : " + err);
+        console.log("connected to the data base");
+    });
+    return db;
+}
 
-    console.log("connected to the data base");
-});
+//This function insert email and password into sqlite database
+function __insert_data(db, email, password) {
+    db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
+        if (err) return console.error("Cannot insert into the TABLE" + err.message);
+    });
+}
 
 console.log("PWD:" + __dirname);
 
@@ -38,12 +48,10 @@ app.post('/submit_form', [
     } else {
         const email = req.body.email;
         const password = req.body.password;
-        console.log(email + ' ' + password);
-        db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
-            if (err) return console.error("Cannot insert into the TABLE" + err.message);
-        });
+        db = __open_data(dataPath);
+        __insert_data(db, email, password);
         console.log(email + " " + password + " has been added to the data base");
-        // db.close();
+        db.close();
         res.send("formulaire envoté avec l'adresse : " + email + " et comme mdp :" + password);
     }
 });
