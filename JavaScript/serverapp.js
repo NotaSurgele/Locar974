@@ -43,9 +43,10 @@ app.post('/submit_form', [
             if (err) return console.error("Cannot insert into the TABLE" + err.message);
         });
         console.log(email + " " + password + " has been added to the data base");
-        db.close();
+        // db.close();
         res.send("formulaire envoté avec l'adresse : " + email + " et comme mdp :" + password);
     }
+    
 });
 
 app.get ('/new', (req, res) => {
