@@ -6,8 +6,16 @@ const bodyParser = require('body-parser');
 var path = require("path");
 var dataPath = "../database/data.db";
 const {check, validationResult} = require('express-validator');
-
 var sqlite = require('sqlite3').verbose();
+
+const session = require('express-session');
+
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(express.static("../HTML/Pic"));
+app.use(express.static("../HTML"));
+app.use(express.static("./"));
+app.set('views', path.join(__dirname, '/../HTML'));
+app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
 
 function __open_data(dataPath) {
     // open and create sqlite data base connexion
@@ -22,43 +30,40 @@ function __open_data(dataPath) {
 function __insert_data(db, email, password) {
     db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
         if (err) return console.error("Cannot insert into the TABLE" + err.message);
+        console.log(email + " " + password + " has been added to the data base");
     });
 }
 
 console.log("PWD:" + __dirname);
 
-app.use(bodyParser.urlencoded({extended : true}));
-app.use(express.static("../HTML/Pic"));
-app.use(express.static("../HTML"));
-app.use(express.static("/"));
-
 app.get ('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../HTML/index.html'), function (err) {
-        if (err) throw err;
-    });
+    res.redirect('/form');
+});
+
+app.get ('/form', (req, res) => {
+    res.render(path.join(__dirname + '/../HTML/index.html'));
 });
 
 app.post('/submit_form', [
-    check('email').isEmail(),
-    check('password').isLength({min : 5})
+    check('email').isEmail().trim().withMessage('Email is not valid'),
+    check('password').isLength({min : 5}).trim().withMessage('Password must be 5 cahracter length')
 ], (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
+        console.log(errors);
+        res.redirect('/form');
     } else {
         const email = req.body.email;
         const password = req.body.password;
         db = __open_data(dataPath);
         __insert_data(db, email, password);
-        console.log(email + " " + password + " has been added to the data base");
         db.close();
-        res.send("formulaire envoté avec l'adresse : " + email + " et comme mdp :" + password);
+        res.redirect("/new");
     }
 });
 
-app.get ('/new', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../HTML/test.html'), function (err) {
-        if (err) throw err;
-    });
+app.get ('/home', (req, res) => {
+    res.render(path.join(__dirname + '/../HTML/test.html'));
 });
+
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));
