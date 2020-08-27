@@ -46,7 +46,6 @@ app.post('/submit_form', [
         // db.close();
         res.send("formulaire envoté avec l'adresse : " + email + " et comme mdp :" + password);
     }
-    
 });
 
 app.get ('/new', (req, res) => {
