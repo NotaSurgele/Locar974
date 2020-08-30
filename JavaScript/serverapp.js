@@ -11,11 +11,11 @@ var sqlite = require('sqlite3').verbose();
 const session = require('express-session');
 
 app.use(bodyParser.urlencoded({extended : true}));
-app.use(express.static("../HTML/Pic"));
-app.use(express.static("../HTML"));
 app.use(express.static("./"));
-app.set('views', path.join(__dirname, '/../HTML'));
 app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
+app.set('views', path.join(__dirname, '/../HTML'));
+app.use(express.static(__dirname + '/../HTML/'));
+
 
 function __open_data(dataPath) {
     // open and create sqlite data base connexion
@@ -45,7 +45,7 @@ app.get ('/form', (req, res) => {
 });
 
 app.get ('/home', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../HTML/test.html'));
+    res.sendFile(path.join(__dirname + '/../HTML/home.html'));
 });
 
 app.post('/submit_form', [
@@ -65,6 +65,5 @@ app.post('/submit_form', [
         res.redirect('/home');
     }
 });
-
 
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));
