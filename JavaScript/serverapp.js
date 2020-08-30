@@ -27,7 +27,7 @@ function __open_data(dataPath) {
 }
 
 //This function insert email and password into sqlite database
-function __insert_data(db, email, password) {
+function __insert_data_user(db, email, password) {
     db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
         if (err) return console.error("Cannot insert into the TABLE" + err.message);
         console.log(email + " " + password + " has been added to the data base");
@@ -48,6 +48,26 @@ app.get ('/home', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/home.html'));
 });
 
+app.get('/prog', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/prog.html'));
+});
+
+app.get('/marque', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/marque.html'));
+});
+
+app.get('/location', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/location.html'));
+});
+
+app.get('/contact', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/contact.html'));
+});
+
+app.get('/profile', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/profile.html'));
+});
+
 app.post('/submit_form', [
     check('email').isEmail().trim().withMessage('Email is not valid'),
     check('password').isLength({min : 5}).trim().withMessage('Password must be 5 character length')
@@ -60,7 +80,7 @@ app.post('/submit_form', [
         const email = req.body.email;
         const password = req.body.password;
         db = __open_data(dataPath);
-        __insert_data(db, email, password);
+        __insert_data_user(db, email, password);
         db.close();
         res.redirect('/home');
     }
