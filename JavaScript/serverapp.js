@@ -34,6 +34,11 @@ function __insert_data_user(db, email, password) {
     });
 }
 
+function __db_close(db) {
+    db.close();
+    console.log("Database has been closed with success");
+}
+
 console.log("PWD:" + __dirname);
 
 app.get ('/', (req, res) => {
@@ -81,9 +86,13 @@ app.post('/submit_form', [
         const password = req.body.password;
         db = __open_data(dataPath);
         __insert_data_user(db, email, password);
-        db.close();
+        __db_close(db);
         res.redirect('/home');
     }
+});
+
+app.post('/submit_prog', (req, res) => {
+    console.log("en cours");
 });
 
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));
