@@ -1,0 +1,13 @@
+users table {
+    Email
+    MDP
+    proprio ou pas (1 pour oui 0 pour non)
+    nombre de voiture en location
+    nombre de véhicule louer en tout
+    ID
+}
+
+
+véhicule table {
+    
+}
