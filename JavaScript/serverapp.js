@@ -11,11 +11,11 @@ var sqlite = require('sqlite3').verbose();
 const session = require('express-session');
 
 app.use(bodyParser.urlencoded({extended : true}));
-app.use(express.static("../HTML/Pic"));
-app.use(express.static("../HTML"));
 app.use(express.static("./"));
-app.set('views', path.join(__dirname, '/../HTML'));
 app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
+app.set('views', path.join(__dirname, '/../HTML'));
+app.use(express.static(__dirname + '/../HTML/'));
+
 
 function __open_data(dataPath) {
     // open and create sqlite data base connexion
@@ -27,7 +27,7 @@ function __open_data(dataPath) {
 }
 
 //This function insert email and password into sqlite database
-function __insert_data(db, email, password) {
+function __insert_data_user(db, email, password) {
     db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
         if (err) return console.error("Cannot insert into the TABLE" + err.message);
         console.log(email + " " + password + " has been added to the data base");
@@ -45,7 +45,27 @@ app.get ('/form', (req, res) => {
 });
 
 app.get ('/home', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../HTML/test.html'));
+    res.sendFile(path.join(__dirname + '/../HTML/home.html'));
+});
+
+app.get('/prog', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/prog.html'));
+});
+
+app.get('/marque', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/marque.html'));
+});
+
+app.get('/location', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/location.html'));
+});
+
+app.get('/contact', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/contact.html'));
+});
+
+app.get('/profile', (req, res) =>{
+    res.sendFile(path.join(__dirname + '/../HTML/profile.html'));
 });
 
 app.post('/submit_form', [
@@ -60,7 +80,7 @@ app.post('/submit_form', [
         const email = req.body.email;
         const password = req.body.password;
         db = __open_data(dataPath);
-        __insert_data(db, email, password);
+        __insert_data_user(db, email, password);
         db.close();
         res.redirect('/home');
     }
