@@ -12,6 +12,7 @@ const util = require('util');
 var dataUtil = require('./data');
 var multer = require('multer');
 var upload = multer();
+var file = require('express-fileupload');
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.urlencoded());
@@ -20,6 +21,7 @@ app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
 app.set('views', path.join(__dirname, '/../HTML'));
 app.use(express.static(__dirname + '/../HTML/'));
 app.set('view engine', 'ejs');
+app.use(file());
 
 console.log("PWD:" + __dirname);
 
@@ -36,7 +38,7 @@ app.get ('/home', (req, res) => {
 });
 
 app.get('/prog', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../HTML/prog.html'));
+    res.render(path.join(__dirname + '/../HTML/prog.ejs'));
 });
 
 app.get('/marque', (req, res) => {
@@ -89,11 +91,11 @@ app.post('/send_car', upload.single('textarea'), (req, res) => {
         const carburant = req.body.carburant;
         const lieu = req.body.lieu;
         const prix = req.body.prix;
-        const pic = req.body.photo;
-        // const email = req.body.email;
+
+        dataUtil.__file_upload(req, res);
 
         console.log(`Monsieur ${first} ${name}, voiture ${marque} de modèle ${modele} avec ${place} et ${porte} 
-        utilisant du ${carburant} se situe a ${lieu} pour le prix de ${prix} par jour. photo ${pic}`);
+        utilisant du ${carburant} se situe a ${lieu} pour le prix de ${prix} par jour.`);
     }
 });
 

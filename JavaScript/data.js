@@ -29,6 +29,20 @@ module.exports = {
     __db_close: function (db) {
         db.close();
         console.log("Database has been closed with success");
+    },
+
+    __file_upload: function (req, res) {
+        if (req.files) {
+            console.log(req.files);
+            var file = req.files.photo
+            var filename = file.name;
+            console.log(filename);
+
+            file.mv('./uploads/' + filename, (err) => {
+                if (err) return res.send(err);
+                else console.log('File Uploaded');
+            });
+        }
     }
 
 };
