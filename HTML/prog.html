@@ -61,47 +61,82 @@
             </div>
         </div>
         </div>
-        <form id="programme" method="POST" action="submit_prog">
-            <div class="row login">
-              <div class="col s10 sl offset-l1">
-                <div class="card">
-                  <div class="card-action red lighten-4 white-text">
-                    <h3>Inscription Programme</h3>
+        <form id="inscription" method="POST" action="send_car" enctype="multipart/form-data">
+          <div class="row">
+            <form class="col s12">
+              <div class="card">
+                <div class="card-action teal">
+                  <h3>Inscrivez votre véhicule</h3>
+                </div>
+                <div class="row">
+                  <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea" name="first"></textarea>
+                    <label for="textarea1">First Name</label>
                   </div>
-                  <div class="card-content">
-                    <div class="form-field">
-                      <label for="email">Email</label>
-                      <input type="email" name="email" id="email">
-                    </div><br>
-                    <div class="form-field">
-                      <label for="name">Prénom</label>
-                      <input type="name" name="name" id="name">
-                    </div><br>
-                    <div class="form-field">
-                        <label for="name">Nom</label>
-                        <input type="name" name="name" id="name">
-                      </div><br>
-                      <div class="form-field">
-                        <label for="name">Nombre de véhicule posséder</label>
-                        <input type="name" name="name" id="name">
-                      </div><br>
-                    <div class="form-field">
-                      <label for="submit"></label>
-                      <input type="submit" name="submit" id="submit" method="GET" value="Inscription">
-                    </div><br>
+                  <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea" name="name"></textarea>
+                    <label for="textarea1">Last Name</label>
                   </div>
                 </div>
+                    <div class="input-field col s12">
+                      <textarea id="textarea1" class="materialize-textarea" name="marque"></textarea>
+                      <label for="textarea1">Marque du véhicule</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <textarea id="textarea2" class="materialize-textarea" name="modele"></textarea>
+                    <label for="textarea2">Modele du véhicule</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <textarea id="textarea3" class="materialize-textarea" name="place"></textarea>
+                    <label for="textarea3">Nombre de place</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <textarea id="textarea4" class="materialize-textarea" name="porte"></textarea>
+                    <label for="textarea4">Nombre de portes</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <textarea id="textarea5" class="materialize-textarea" name="carburant"></textarea>
+                    <label for="textarea5">Diesel ou Essence ?</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <textarea id="textarea6" class="materialize-textarea" name="lieu"></textarea>
+                    <label for="textarea6">Lieu du véhicule</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <textarea id="textarea7" class="materialize-textarea" name="prix"></textarea>
+                    <label for="textarea7">Prix</label>
+                  </div>
+              <!-- <div class="row">
+                <div class="input-field col s12">
+                  <input id="email" type="email" class="validate">
+                  <label for="email">Email</label>
+                </div>
+              </div> -->
+                  <div class="file-field input-field">
+                    <h6>Photo du véhicule :</h6></br>
+                    <div class="btn">
+                      <span>File</span>
+                      <input type="file" name="photo" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="submit"></label>
+                  <input type="submit" name="submit" id="submit" value="Envoyé">
+                </div><br>
               </div>
             </div>
-            <p style="color: red;" method="GET" id="error" value="error"></p>
             </form>
-      <ul class="pagination center">
-        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-        <li class="waves-effect"><a href="home">Acceuil</a></li>
-        <li class="waves-effect"><a href="marque">Marques</a></li>
-        <li class="waves-effect"><a href="location">Location</a></li>
-        <li class="active"><a href="prog">Programme</a></li>
-        <li class="waves-effect"><a href="profile">Profile</a></li>
+          <ul class="pagination center">
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+            <li class="waves-effect"><a href="home">Acceuil</a></li>
+            <li class="waves-effect"><a href="marque">Marques</a></li>
+            <li class="waves-effect"><a href="location">Location</a></li>
+            <li class="active"><a href="prog">Programme</a></li>
+            <li class="waves-effect"><a href="profile">Profile</a></li>
         <li class="waves-effect"><a href="contact">Contact</a></li>
       </ul>
       <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

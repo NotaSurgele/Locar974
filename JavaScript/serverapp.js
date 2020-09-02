@@ -9,8 +9,12 @@ const {check, validationResult} = require('express-validator');
 var sqlite = require('sqlite3').verbose();
 const session = require('express-session');
 const util = require('util');
+var dataUtil = require('./data');
+var multer = require('multer');
+var upload = multer();
 
 app.use(bodyParser.urlencoded({extended : true}));
+app.use(express.urlencoded());
 app.use(express.static("./"));
 app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
 app.set('views', path.join(__dirname, '/../HTML'));
@@ -18,37 +22,6 @@ app.use(express.static(__dirname + '/../HTML/'));
 app.set('view engine', 'ejs');
 
 console.log("PWD:" + __dirname);
-
-function __open_data(dataPath) {
-    // open and create sqlite data base connexion
-    let db = new sqlite.Database(dataPath, (err) => {
-        if (err) return console.error("cannot connect to database error : " + err);
-        console.log("connected to the data base");
-    });
-    return db;
-}
-
-
-//This function insert email and password into sqlite database
-function __insert_data_user(db, email, password) {
-    db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
-        if (err) return console.error("Cannot insert into the TABLE" + err.message);
-        console.log(email + "|" + password + " has been added to the data base");
-    });
-}
-
-function _get_data_from(db, table) {
-     db.each(`SELECT * FROM ${table}`, (err, row) => {
-        console.log(row);
-     });
-     return row;
-}
-
-function __db_close(db) {
-    db.close();
-    console.log("Database has been closed with success");
-}
-
 
 app.get ('/', (req, res) => {
     res.redirect('/form');
@@ -71,9 +44,9 @@ app.get('/marque', (req, res) => {
 });
 
 app.get('/location', (req, res) => {
+    db = dataUtil.__open_data(dataPath);
+    dataUtil._get_data_from(db, "users");
     res.render(path.join(__dirname + '/../HTML/location.ejs'), {data : {test: ['Peugeot 208-Diesel', 'Peugeot 209-Diesel', 'Peugeot 210-Diesel', 'Peugeot 211-Diesel', 'Peugeot 212-Diesel']}});
-    db = __open_data(dataPath);
-    _get_data_from(db, "users");
 });
 
 app.get('/contact', (req, res) => {
@@ -95,15 +68,33 @@ app.post('/submit_form', [
     } else {
         const email = req.body.email;
         const password = req.body.password;
-        db = __open_data(dataPath);
-        __insert_data_user(db, email, password);
-        __db_close(db);
+        db = dataUtil.__open_data(dataPath);
+        dataUtil.__insert_data_user(db, email, password);
+        dataUtil.__db_close(db);
         res.redirect('/home');
     }
 });
 
-app.post('/submit_prog', (req, res) => {
-    console.log("en cours");
+app.post('/send_car', upload.single('textarea'), (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+        return errors;
+    else {
+        const first = req.body.first;
+        const name = req.body.name;
+        const marque = req.body.marque;
+        const modele = req.body.modele;
+        const place = req.body.place;
+        const porte = req.body.porte;
+        const carburant = req.body.carburant;
+        const lieu = req.body.lieu;
+        const prix = req.body.prix;
+        const pic = req.body.photo;
+        // const email = req.body.email;
+
+        console.log(`Monsieur ${first} ${name}, voiture ${marque} de modèle ${modele} avec ${place} et ${porte} 
+        utilisant du ${carburant} se situe a ${lieu} pour le prix de ${prix} par jour. photo ${pic}`);
+    }
 });
 
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));

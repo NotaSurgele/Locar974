@@ -10,6 +10,13 @@ users table {
 }
 
 
-véhicule table {
-
+car table {
+    MArque du véhicule
+    Modèle
+    Le nombre de place
+    Nombre de porte
+    Diesel ou Essence?
+    Propriétaire
+    Lieu
+    Le prix
 }
