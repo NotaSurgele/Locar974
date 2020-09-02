@@ -31,23 +31,8 @@ module.exports = {
         console.log("Database has been closed with success");
     },
 
-    __file_upload: function (req, res) {
-        if (req.files) {
-            console.log(req.files);
-            var file = req.files.photo
-            var filename = file.name;
-            console.log(filename);
-
-            file.mv('./uploads/' + filename, (err) => {
-                if (err) return res.send(err);
-                else console.log('File Uploaded');
-            });
-            return filename;
-        }
-    },
-
     __insert_data_cars: function (db, firstname, lastname, marque, modele, place, porte, carburant, lieu, prix, filename) {
-        db.run(`INSERT INTO cars (first, name, marque, modele, place, porte, carburant, lieu, prix, filename) values ('${firstname}', '${lastname}', '${marque}', '${modele}', '${place}', '${porte}', '${carburant}', '${lieu}', '${prix}', '${filename}')`, (err) =>{
+        db.run(`INSERT INTO cars (firstname, lastname, marque, modele, place, porte, carburant, lieu, prix, filename) values ('${firstname}', '${lastname}', '${marque}', '${modele}', '${place}', '${porte}', '${carburant}', '${lieu}', '${prix}', '${filename}')`, (err) =>{
             if (err) return console.error("Cannot insert into the TABLE" + err.message);
             console.log(`('${firstname}', '${lastname}', '${marque}', '${modele}', '${place}', '${porte}', '${carburant}', '${lieu}', '${prix}', '${filename}' added to the cars tables`);
         });
