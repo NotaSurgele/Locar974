@@ -7,8 +7,8 @@ var path = require("path");
 var dataPath = "../database/data.db";
 const {check, validationResult} = require('express-validator');
 var sqlite = require('sqlite3').verbose();
-
 const session = require('express-session');
+const util = require('util');
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.static("./"));
@@ -16,6 +16,7 @@ app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
 app.set('views', path.join(__dirname, '/../HTML'));
 app.use(express.static(__dirname + '/../HTML/'));
 
+console.log("PWD:" + __dirname);
 
 function __open_data(dataPath) {
     // open and create sqlite data base connexion
@@ -30,7 +31,7 @@ function __open_data(dataPath) {
 function __insert_data_user(db, email, password) {
     db.run(`INSERT INTO users (email, password) values ('${email}', '${password}')`, (err) =>{
         if (err) return console.error("Cannot insert into the TABLE" + err.message);
-        console.log(email + " " + password + " has been added to the data base");
+        console.log(email + "|" + password + " has been added to the data base");
     });
 }
 
@@ -39,7 +40,6 @@ function __db_close(db) {
     console.log("Database has been closed with success");
 }
 
-console.log("PWD:" + __dirname);
 
 app.get ('/', (req, res) => {
     res.redirect('/form');
@@ -53,23 +53,24 @@ app.get ('/home', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/home.html'));
 });
 
-app.get('/prog', (req, res) =>{
+app.get('/prog', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/prog.html'));
 });
 
-app.get('/marque', (req, res) =>{
+app.get('/marque', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/marque.html'));
 });
 
-app.get('/location', (req, res) =>{
+app.get('/location', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/location.html'));
+    res.set('Content-Type', 'text/html');
 });
 
-app.get('/contact', (req, res) =>{
+app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/contact.html'));
 });
 
-app.get('/profile', (req, res) =>{
+app.get('/profile', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/profile.html'));
 });
 
