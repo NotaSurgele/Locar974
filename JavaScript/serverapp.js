@@ -77,13 +77,13 @@ app.post('/submit_form', [
     }
 });
 
-app.post('/send_car', upload.single('textarea'), (req, res) => {
+app.post('/send_car', upload.single('textarea1'), (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
         return errors;
     else {
         const first = req.body.first;
-        const name = req.body.name;
+        const last = req.body.name;
         const marque = req.body.marque;
         const modele = req.body.modele;
         const place = req.body.place;
@@ -91,11 +91,13 @@ app.post('/send_car', upload.single('textarea'), (req, res) => {
         const carburant = req.body.carburant;
         const lieu = req.body.lieu;
         const prix = req.body.prix;
+        const filename = dataUtil.__file_upload(req, res);
 
-        dataUtil.__file_upload(req, res);
+        console.log('prix = ' + first);
 
-        console.log(`Monsieur ${first} ${name}, voiture ${marque} de modèle ${modele} avec ${place} et ${porte} 
-        utilisant du ${carburant} se situe a ${lieu} pour le prix de ${prix} par jour.`);
+        db = dataUtil.__open_data(dataPath);
+        dataUtil.__insert_data_cars(db, first, last, marque, modele, place, porte, carburant, lieu, prix, filename);
+        dataUtil.__db_close(db);
     }
 });
 
