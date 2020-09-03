@@ -25,6 +25,25 @@
         footer div a {
           font-size: 15px;
         }
+        .card-image {
+          width: 100%;
+          float: right;
+        }
+        body div h6 {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .card{
+          transition: .5s;
+          background: #eee;
+        }
+        .card:over i, h5{
+          color: #c2185b;
+        }
+        .card:over{
+          transform: scale(1.03);
+          background: #fff;
+        }
       </style>
 
       <nav class="nav-wraper teal lighten-2">
@@ -43,29 +62,30 @@
     </head>
 
     <body>
-      <h1>Nos annonces:</h1>
-      <% for (var i=0; i < 5; i++) { %>
-        <div class="container">
-          <div class="row">
-            <div class="col s3 l4">
-              <div class="card z-depth-5">
+      <div class="container services">
+        <h1>Nos annonces:</h1>
+        <div class="row">
+      <% for (var i=0; i < data.cars.length; i++) { %>
+            <div class="col s8 m6 l3">
+              <div class="card large z-depth-5">
                 <div class="card-image">
-                  <img src="Pic/peugeot.jpeg">
-                  <span class="card-title"><%= data.test[i]%></span>
+                  <img src="<%= data.cars[i].filename%>" class="responsive-img">
+                  <span class="card-title"><%= data.cars[i].marque%>  Modele: <%= data.cars[i].modele %></span>
                 </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <h6>Peugeot 208-Diesel en très bonne êtat, 200km sur le compteur.</h6>
-                    <div class="card-action">
-                      <p><a href="prog">Cliquer ici !</a></p>
-                    </div>
+                <div class="card-content">
+                  <p>Place: <%= data.cars[i].place%></p>
+                  <p>Porte: <%= data.cars[i].porte%></p>
+                  <p>Modele: <%= data.cars[i].modele%></p>
+                  <h6><%= data.cars[i].prix%>€/Jour</h6>
+                  <div class="card-action">
+                    <p><a href="prog">Cliquer ici !</a></p>
                   </div>
                 </div>
               </div>
             </div>
+            <% } %>
           </div>
         </div>
-      <% } %>
       <ul class="pagination center">
         <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
         <li class="waves-effect"><a href="home">Acceuil</a></li>

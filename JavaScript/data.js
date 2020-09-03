@@ -1,4 +1,5 @@
 var sqlite = require('sqlite3').verbose();
+var querystring = require('querystring');
 
 module.exports = {
     __open_data: function (dataPath) {
@@ -18,12 +19,13 @@ module.exports = {
         });
     },
 
-    _get_data_from: function(db, table) {
-        let row;
+    _get_data_from: function(db, table, res) {
+        var array = [];
         db.each(`SELECT * FROM ${table}`, (err, row) => {
-            console.log(row);
-            return row;
-         });
+            let string = querystring.stringify(row);
+            array.push(string);
+        });
+        console.log(array);
     },
 
     __db_close: function (db) {

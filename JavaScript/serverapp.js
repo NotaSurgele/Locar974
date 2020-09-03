@@ -10,17 +10,16 @@ var sqlite = require('sqlite3').verbose();
 const session = require('express-session');
 const util = require('util');
 var dataUtil = require('./data');
-// var file = require('express-fileupload');
 var multer = require('multer');
-// var upload = multer();
+var querystring = require('querystring');
 
-// app.use(file());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.urlencoded());
 app.use(express.static("./"));
 app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
 app.set('views', path.join(__dirname, '/../HTML'));
 app.use(express.static(__dirname + '/../HTML/'));
+app.use(express.static(__dirname + '/uploads/'));
 app.set('view engine', 'ejs');
 
 console.log("PWD:" + __dirname);
@@ -64,10 +63,17 @@ app.get('/marque', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/marque.html'));
 });
 
-app.get('/location', (req, res) => {
+app.get("/location", (req, res) => {
+    const sql = "SELECT * FROM cars";
     db = dataUtil.__open_data(dataPath);
-    dataUtil._get_data_from(db, "cars");
-    res.render(path.join(__dirname + '/../HTML/location.ejs'), {data : {test: ['Peugeot 208-Diesel', 'Peugeot 209-Diesel', 'Peugeot 210-Diesel', 'Peugeot 211-Diesel', 'Peugeot 212-Diesel']}});
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log(rows);
+        res.render(path.join(__dirname + '/../HTML/location.ejs'), {data: {cars: rows}});
+
+  });
 });
 
 app.get('/contact', (req, res) => {
