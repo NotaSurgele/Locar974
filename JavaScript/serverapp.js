@@ -43,15 +43,15 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-app.get ('/', (req, res) => {
+app.get('/', (req, res) => {
     res.redirect('/form');
 });
 
-app.get ('/form', (req, res) => {
+app.get('/form', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/index.html'));
 });
 
-app.get ('/home', (req, res) => {
+app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname + '/../HTML/home.html'));
 });
 
@@ -113,7 +113,7 @@ app.post('/send_car', upload.single('photo'), (req, res) => {
         const carburant = req.body.carburant;
         const lieu = req.body.lieu;
         const prix = req.body.prix;
-        const filename = req.file.filename
+        const filename = req.file.filename;
         db = dataUtil.__open_data(dataPath);
         dataUtil.__insert_data_cars(db, first, last, marque, modele, place, porte, carburant, lieu, prix, filename);
         dataUtil.__db_close(db);

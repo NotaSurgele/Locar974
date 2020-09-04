@@ -19,15 +19,6 @@ module.exports = {
         });
     },
 
-    _get_data_from: function(db, table, res) {
-        var array = [];
-        db.each(`SELECT * FROM ${table}`, (err, row) => {
-            let string = querystring.stringify(row);
-            array.push(string);
-        });
-        console.log(array);
-    },
-
     __db_close: function (db) {
         db.close();
         console.log("Database has been closed with success");
