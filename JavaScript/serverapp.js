@@ -12,10 +12,10 @@ const util = require('util');
 var dataUtil = require('./data');
 var multer = require('multer');
 var querystring = require('querystring');
-var url = require('url');
-var car = require('./car');
+// var url = require('url');
 
 app.use(bodyParser.urlencoded({extended : true}));
+app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static("./"));
 app.use(session({secret: 'cum', saveUninitialized: true, resave: true}));
@@ -79,13 +79,17 @@ app.get("/location", (req, res) => {
 });
 
 app.get('/car', (req, res)=> {
-    var i = req.query.name;
-    console.log(i);
-    res.render(path.join(__dirname + '/../HTML/car.ejs'));
-});
-
-app.get('/test', (req, res) => {
-    console.log('test');
+    var getUrl = req.url;
+    getNumb = getUrl.match(/\d+/g);
+    const sql = "SELECT * FROM cars";
+    db = dataUtil.__open_data(dataPath);
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log(rows);
+        res.render(path.join(__dirname + '/../HTML/car.ejs'), {data: {cars: rows, size: getNumb[0]}});
+  });
 });
 
 app.get('/contact', (req, res) => {
@@ -126,8 +130,10 @@ app.post('/send_car', upload.single('photo'), (req, res) => {
         const lieu = req.body.lieu;
         const prix = req.body.prix;
         const filename = req.file.filename;
+        const isAvailaible = 0;
+        const id = req.body.id;
         db = dataUtil.__open_data(dataPath);
-        dataUtil.__insert_data_cars(db, first, last, marque, modele, place, porte, carburant, lieu, prix, filename);
+        dataUtil.__insert_data_cars(db, first, last, marque, modele, place, porte, carburant, lieu, prix, filename, isAvailaible);
         dataUtil.__db_close(db);
         res.redirect('/prog');
     } catch (error) {
@@ -135,4 +141,23 @@ app.post('/send_car', upload.single('photo'), (req, res) => {
     }
 });
 
+
+app.post('/louer', (req, res) => {
+    try {
+        var getUrl = req.url;
+        let str = "";
+        for (var i=0; i < getUrl.length; i++) {
+            if (getUrl[i] >= '0' && getUrl[i] <= '9')
+                str = getUrl[i];
+        }
+        const id = parseInt(str, 10) + 1;
+        console.log(id);
+        const isAvalaible = 1;
+        db = dataUtil.__open_data(dataPath);
+        dataUtil.__update_cars_table(db, id, isAvalaible);
+        res.redirect('/location');
+    } catch(error) {
+        console.error(error);
+    }
+});
 app.listen(PORT,console.log('App listening on localhost:'+ PORT));

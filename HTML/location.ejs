@@ -6,8 +6,7 @@
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script text="module/javascript" src="car.js"></script>
-    
+
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <style>
@@ -67,28 +66,26 @@
         <h1>Nos annonces:</h1>
         <div class="row">
       <% for (var i=0; i < data.cars.length; i++) { %>
-        <div class="col s8 m6 l3">
-          <div class="card large z-depth-5" id="car">
-            <div class="card-image">
-              <img src="<%= data.cars[i].filename%>" class="responsive-img">
-              <span class="card-title"><%= data.cars[i].marque%>  Modele: <%= data.cars[i].modele %></span>
-            </div>
-            <div class="card-content">
-              <p>Place: <%= data.cars[i].place%></p>
-              <p>Porte: <%= data.cars[i].porte%></p>
-              <p>Modele: <%= data.cars[i].modele%></p>
-              <h6><%= data.cars[i].prix%>€/Jour</h6>
-              <div class="card-action">
-                <p><a href="car" onclick="func('<%= i %>')">Cliquer ici !</a></p>
-                <script>function func (arg) {
-                  localStorage.setItem("test", arg);
-                }
-                </script>
+       <% if (data.cars[i].isAvailable == 0) { %>
+          <div class="col s8 m6 l3">
+            <div class="card large z-depth-5" id="car">
+              <div class="card-image">
+                <img src="<%= data.cars[i].filename%>" class="responsive-img">
+                <span class="card-title"><%= data.cars[i].marque%>  Modele: <%= data.cars[i].modele %></span>
+              </div>
+              <div class="card-content">
+                <p>Place: <%= data.cars[i].place%></p>
+                <p>Porte: <%= data.cars[i].porte%></p>
+                <p>Modele: <%= data.cars[i].modele%></p>
+                <h6><%= data.cars[i].prix%>€/Jour</h6>
+                <div class="card-action">
+                  <p><a href="car?numb=<%= i %>">Cliquer ici !</a></p>
+                    </div>
                   </div>
                 </div>
-              </div>
             </div>
             <% } %>
+              <% } %>
           </div>
         </div>
         <ul class="pagination center">

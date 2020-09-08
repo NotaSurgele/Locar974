@@ -59,11 +59,52 @@
           </ul>
         </ul>
       </nav>
-      <script text="module/javascript" src="car.js"></script>
     </head>
-
     <body>
-      <script>console.log(localStorage.getItem('test'));</script>
+      <form method="POST" action="louer?<%= data.size%>">
+          <div class="row">
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].firstname%>" id="disabled" type="text" class="validate">
+              <label for="disabled">firstname</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].lastname%>" id="disabled" type="text" class="validate">
+              <label for="disabled">lastname</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].marque%>" id="disabled" type="text" class="validate">
+              <label for="disabled">marque</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].modele%>" id="disabled" type="text" class="validate">
+              <label for="disabled">modèle</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].place%>" id="disabled" type="text" class="validate">
+              <label for="disabled">place</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].porte%>" id="disabled" type="text" class="validate">
+              <label for="disabled">porte</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].carburant%>" id="disabled" type="text" class="validate">
+              <label for="disabled">carburant</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].lieu%>" id="disabled" type="text" class="validate">
+              <label for="disabled">lieu</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled value="<%= data.cars[data.size].prix%>€/jour" id="disabled" type="text" class="validate">
+              <label for="disabled">prix</label>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="submit"></label>
+            <input type="submit" name="submit" id="submit" value="Louer">
+          </div><br>
+      </form>
       <ul class="pagination center">
         <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
         <li class="waves-effect"><a href="home">Acceuil</a></li>
