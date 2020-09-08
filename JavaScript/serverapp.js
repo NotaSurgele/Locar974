@@ -12,6 +12,8 @@ const util = require('util');
 var dataUtil = require('./data');
 var multer = require('multer');
 var querystring = require('querystring');
+var url = require('url');
+var car = require('./car');
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.urlencoded());
@@ -43,6 +45,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
+
 app.get('/', (req, res) => {
     res.redirect('/form');
 });
@@ -72,8 +75,17 @@ app.get("/location", (req, res) => {
         }
         console.log(rows);
         res.render(path.join(__dirname + '/../HTML/location.ejs'), {data: {cars: rows}});
-
   });
+});
+
+app.get('/car', (req, res)=> {
+    var i = req.query.name;
+    console.log(i);
+    res.render(path.join(__dirname + '/../HTML/car.ejs'));
+});
+
+app.get('/test', (req, res) => {
+    console.log('test');
 });
 
 app.get('/contact', (req, res) => {
@@ -117,6 +129,7 @@ app.post('/send_car', upload.single('photo'), (req, res) => {
         db = dataUtil.__open_data(dataPath);
         dataUtil.__insert_data_cars(db, first, last, marque, modele, place, porte, carburant, lieu, prix, filename);
         dataUtil.__db_close(db);
+        res.redirect('/prog');
     } catch (error) {
         console.error(error);
     }

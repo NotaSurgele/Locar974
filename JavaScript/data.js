@@ -30,5 +30,5 @@ module.exports = {
             console.log(`('${firstname}', '${lastname}', '${marque}', '${modele}', '${place}', '${porte}', '${carburant}', '${lieu}', '${prix}', '${filename}' added to the cars tables`);
         });
     },
-
+    
 };
